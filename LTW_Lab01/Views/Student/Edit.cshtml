@@ -1,0 +1,77 @@
+﻿@model LTW_Lab01.Models.Student
+
+@using LTW_Lab01.Models
+
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<h2>Edit Student</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+
+    <input type="hidden" asp-for="ImageUrl" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfBirth">Ngày sinh</label>
+        <input asp-for="DateOfBirth" class="form-control" type="date" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Gender">Giới tính</label>
+        <select asp-for="Gender" class="form-control" asp-items="Html.GetEnumSelectList<Gender>()">
+            <option value="">-- Chọn giới tính --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Branch">Hệ đào tạo</label>
+        <select asp-for="Branch" class="form-control" asp-items="Html.GetEnumSelectList<Branch>()">
+            <option value="">-- Chọn hệ đào tạo --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address">Địa chỉ</label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" type="email" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" class="form-control" type="password" />
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="IsRegular" class="form-check-input" />
+        <label asp-for="IsRegular" class="form-check-label">Sinh viên chính quy</label>
+    </div>
+
+    <div class="form-group">
+        <label>Ảnh đại diện hiện tại</label>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="Ảnh hiện tại" style="width: 150px; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;" />
+            <br />
+        }
+        else
+        {
+            <span>(Không có ảnh hiện tại)</span>
+            <br />
+        }
+        <label for="newImageFile">Chọn ảnh mới (nếu muốn thay đổi)</label>
+        <input type="file" id="newImageFile" name="newImageFile" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

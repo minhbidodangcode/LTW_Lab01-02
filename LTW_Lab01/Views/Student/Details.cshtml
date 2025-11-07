@@ -1,0 +1,62 @@
+﻿@using LTW_Lab01.Models
+@model LTW_Lab01.Models.Student
+
+@{
+    ViewData["Title"] = "Chi tiết Sinh viên";
+}
+
+<h2>Chi tiết Sinh viên</h2>
+
+<div>
+    <h4>Thông tin của @Model.Name</h4>
+    <hr />
+    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+    {
+        <img src="@Model.ImageUrl" alt="@Model.Name" style="max-width: 200px; height: auto; border-radius: 8px; margin-bottom: 20px;" />
+    }
+    else
+    {
+        <p>Không có ảnh đại diện</p>
+    }
+    <dl class="row">
+        <dt class="col-sm-3">Mã:</dt>
+        <dd class="col-sm-9">@Model.Id</dd>
+
+        <dt class="col-sm-3">Họ tên:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Ngày sinh:</dt>
+        <dd class="col-sm-9">@(Model.DateOfBirth.ToShortDateString())</dd>
+
+        <dt class="col-sm-3">Giới tính:</dt>
+        <dd class="col-sm-9">@(Model.Gender == Gender.Male ? "Nam" : "Nữ")</dd>
+
+        <dt class="col-sm-3">Ngành:</dt>
+        <dd class="col-sm-9">
+            @{
+                string str = "";
+                switch (Model.Branch)
+                {
+                    case Branch.IT: str = "CNTT"; break;
+                    case Branch.BE: str = "Kinh tế"; break;
+                    case Branch.CE: str = "Công trình"; break;
+                    case Branch.EE: str = "Điện - Điện tử"; break;
+                }
+            }
+            @str
+        </dd>
+
+        <dt class="col-sm-3">Hệ ĐT:</dt>
+        <dd class="col-sm-9">@(Model.IsRegular ? "Chính quy" : "Phi chính quy")</dd>
+
+        <dt class="col-sm-3">Địa chỉ:</dt>
+        <dd class="col-sm-9">@Model.Address</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a> |
+    <a asp-action="Index" class="btn btn-secondary">Quay lại Danh sách</a>
+</div>

@@ -1,0 +1,35 @@
+﻿@using LTW_Lab01.Models
+@model LTW_Lab01.Models.Student
+
+@{
+    ViewData["Title"] = "Xác nhận Xóa";
+}
+
+<h2>Xác nhận Xóa</h2>
+
+<h3>Bạn có chắc chắn muốn xóa sinh viên này không?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Mã:</dt>
+        <dd class="col-sm-9">@Model.Id</dd>
+
+        <dt class="col-sm-3">Họ tên:</dt>
+        <dd class="col-sm-9">@Model.Name</dd>
+
+        <dt class="col-sm-3">Ngành:</dt>
+        <dd class="col-sm-9">@Model.Branch</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+
+        <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

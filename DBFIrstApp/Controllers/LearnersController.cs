@@ -18,11 +18,36 @@ namespace DBFIrstApp.Controllers
             _context = context;
         }
 
-        // GET: Learners
         public async Task<IActionResult> Index()
         {
-            var schoolContext = _context.Learners.Include(l => l.Major);
-            return View(await schoolContext.ToListAsync());
+            var learners = await _context.Learners
+                                    .Include(m => m.Major!)
+                                    .OrderBy(l => l.LastName)
+                                    .ToListAsync();
+
+            return View(learners);
+        }
+
+        public async Task<IActionResult> LearnerByMajorID(int? mid)
+        {
+            List<Learner> learners;
+
+            if (mid == null || mid == 0)
+            {
+                learners = await _context.Learners
+                    .Include(l => l.Major!) 
+                    .OrderBy(l => l.LastName)
+                    .ToListAsync(); 
+            }
+            else
+            {
+                learners = await _context.Learners
+                    .Where(l => l.MajorId == mid)
+                    .Include(l => l.Major!)
+                    .OrderBy(l => l.LastName)
+                    .ToListAsync();
+            }
+            return PartialView("LearnerTable", learners);
         }
 
         // GET: Learners/Details/5
@@ -117,7 +142,7 @@ namespace DBFIrstApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MajorId"] = new SelectList(_context.Majors, "MajorId", "MajorId", learner.MajorId);
+            ViewData["MajorId"] = new SelectList(_context.Majors, "MajorId", "MajorName", learner.MajorId);
             return View(learner);
         }
 

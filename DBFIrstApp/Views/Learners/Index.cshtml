@@ -10,53 +10,32 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Mã
-            </th>
-            <th>
-                Tên
-            </th>
-            <th>
-                Họ
-            </th>
-            <th>
-                Ngành
-            </th>
-			<th>Ngày Nhập Học
-            </th>
-			<th>
-                Chức năng
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-           <td>
-				@Html.DisplayFor(modelItem => item.LearnerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstMidName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-				@Html.DisplayFor(modelItem => item.Major.MajorName)
-			</td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EnrollmentDate)
-            </td>
-            >
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LearnerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LearnerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LearnerId">Delete</a>
-            </td>
-        </tr>
+
+@await Component.InvokeAsync("Major") 
+
+<div id="content">
+
+    @await Html.PartialAsync("LearnerTable", Model)
+
+</div>
+
+@section Scripts {
+    <script>
+        $("li").click(function (e) {
+
+            var id = $(this).attr("id");
+
+            $.ajax({
+                url: "@Url.Action("LearnerByMajorID", "Learners")",
+                type: "GET",
+                data: { mid: id },
+                success: function (response) {
+                    $("#content").html(response);
+                },
+                error: function() {
+                    alert("Lỗi khi tải dữ liệu.");
+                }
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>

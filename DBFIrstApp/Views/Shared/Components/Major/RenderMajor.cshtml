@@ -1,0 +1,10 @@
+﻿@model IEnumerable<DBFIrstApp.Models.Major>
+
+<ul class="nav">
+    @foreach (var m in Model)
+    {
+        <li class="nav-item" id="@m.MajorId" style="cursor:pointer;">
+            <a class="nav-link">@m.MajorName</a>
+        </li>
+    }
+</ul>
